@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wex - Gas Allocation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .section {
+      background-color: #fff;
+      padding: 15px;
+      border-left: 6px solid #007acc;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input[type="number"], input[type="text"] {
+      padding: 5px;
+      width: 160px;
+    }
+
+    button.calc {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <button class="calc" onclick="goHome()" style="margin-bottom: 20px;">Return to Home</button>
+    <h2>Wex - Gas Allocation</h2>
+    <label for="daterange">Date Range:</label>
+    <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
+    <label for="gasBeachside">Gas - Beachside:</label>
+    <input type="number" id="gasBeachside" value="1303.91">
+    <label for="gasHK">Gas - HK:</label>
+    <input type="number" id="gasHK" value="2073.58">
+    <label for="gasMaint">Gas - Maint:</label>
+    <input type="number" id="gasMaint" value="798.52">
+    <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
+    <div id="wex-result"></div>
+  </div>
+
+  <script>
+    function formatNumber(num) {
+      return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function calculateWex() {
+      const b = parseFloat(document.getElementById("gasBeachside").value) || 0;
+      const h = parseFloat(document.getElementById("gasHK").value) || 0;
+      const m = parseFloat(document.getElementById("gasMaint").value) || 0;
+      const total = b + h + m;
+
+      let result = `
+        <h3>Wex Gas Split Summary</h3>
+        <p><strong>Total:</strong> $${formatNumber(total)}</p>
+        <ul style="line-height: 1.8;">
+          <li>Beachside: $${formatNumber(b)}</li>
+          <li>HK: $${formatNumber(h)}</li>
+          <li>Maint: $${formatNumber(m)}</li>
+        </ul>`;
+      document.getElementById("wex-result").innerHTML = result;
+    }
+
+    function goHome() {
+      window.location.href = "https://valarib.github.io/ACTG-GL-Reference-Tool/"; // Adjust to your main tool page if needed
+    }
+  </script>
+
+</body>
+</html>
