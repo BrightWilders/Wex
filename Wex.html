@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Wex - Gas Allocation</title>
+  <title>Wex - Gas Allocation Summary</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -14,27 +14,43 @@
 
     .section {
       background-color: #fff;
-      padding: 15px;
+      padding: 20px;
       border-left: 6px solid #007acc;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      text-align: left;
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
+      text-align: left;
     }
 
-    label {
-      display: block;
-      margin: 10px 0 5px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
-    input[type="number"], input[type="text"] {
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #eef3f7;
+    }
+
+    input[type="number"] {
+      width: 100px;
       padding: 5px;
-      width: 160px;
     }
 
-    button.calc {
-      margin-top: 10px;
+    input[type="text"] {
+      width: 300px;
+      padding: 5px;
+    }
+
+    button {
+      margin-top: 15px;
       padding: 8px 16px;
       background-color: #007acc;
       color: white;
@@ -42,52 +58,176 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    .info-small {
+      font-size: 14px;
+      margin-left: 20px;
+    }
+
+    .info-small table {
+      border: none;
+      width: auto;
+    }
+
+    .info-small th, .info-small td {
+      border: none;
+      padding: 4px 8px;
+      text-align: left;
+    }
+
+    .info-small th {
+      font-weight: bold;
+    }
+
+    .header-flex {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
 
   <div class="section">
-    <button class="calc" onclick="goHome()" style="margin-bottom: 20px;">Return to Home</button>
-    <h2>Wex - Gas Allocation</h2>
+    <h2>Wex - Gas Allocation Summary</h2>
+
     <label for="daterange">Date Range:</label>
     <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
-    <label for="gasBeachside">Gas - Beachside:</label>
-    <input type="number" id="gasBeachside" value="1303.91">
-    <label for="gasHK">Gas - HK:</label>
-    <input type="number" id="gasHK" value="2073.58">
-    <label for="gasMaint">Gas - Maint:</label>
-    <input type="number" id="gasMaint" value="798.52">
-    <button class="calc" onclick="calculateWex()">Calculate Wex Allocation</button>
-    <div id="wex-result"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Charge Type</th>
+          <th>Beachside</th>
+          <th>HK</th>
+          <th>Maint</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gas</td>
+          <td><input type="number" id="gasBeachside" value="1303.91"></td>
+          <td><input type="number" id="gasHK" value="2073.58"></td>
+          <td><input type="number" id="gasMaint" value="798.52"></td>
+          <td id="gasTotal"></td>
+        </tr>
+        <tr>
+          <td>Monthly Charge</td>
+          <td>10.00</td>
+          <td>14.00</td>
+          <td>6.00</td>
+          <td>30.00</td>
+        </tr>
+        <tr>
+          <td>Misc</td>
+          <td><input type="number" id="miscBeachside" value="0"></td>
+          <td><input type="number" id="miscHK" value="0"></td>
+          <td><input type="number" id="miscMaint" value="0"></td>
+          <td id="miscTotal"></td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td id="totalBeachside"></td>
+          <td id="totalHK"></td>
+          <td id="totalMaint"></td>
+          <td id="grandTotal"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button onclick="calculateTotals()">Calculate Totals</button>
+
+    <div id="invoiceMemo" style="margin-top: 20px;"></div>
+
+    <div class="header-flex">
+      <h3 style="margin: 0;">Coding</h3>
+      <div class="info-small">
+        <table>
+          <thead>
+            <tr>
+              <th>Spend Owner</th>
+              <th>Entity</th>
+              <th>Bill Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Brian Gladwell</td>
+              <td>MC</td>
+              <td id="billDesc"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>GL</th>
+          <th>Department</th>
+          <th>Class</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>7261--Gas & Mileage</td>
+          <td>GT6 Property Services</td>
+          <td>BKW ALL</td>
+        </tr>
+        <tr>
+          <td>7261--Gas & Mileage</td>
+          <td>Housekeeping</td>
+          <td>Unassigned Listing - Keys</td>
+        </tr>
+        <tr>
+          <td>7261--Gas & Mileage</td>
+          <td>Maintenance - Facility Services</td>
+          <td>Unassigned Listing - Keys</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
-    function formatNumber(num) {
-      return num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function format(num) {
+      return parseFloat(num).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function calculateWex() {
+    function calculateTotals() {
       const b = parseFloat(document.getElementById("gasBeachside").value) || 0;
       const h = parseFloat(document.getElementById("gasHK").value) || 0;
       const m = parseFloat(document.getElementById("gasMaint").value) || 0;
-      const total = b + h + m;
 
-      let result = `
-        <h3>Wex Gas Split Summary</h3>
-        <p><strong>Total:</strong> $${formatNumber(total)}</p>
-        <ul style="line-height: 1.8;">
-          <li>Beachside: $${formatNumber(b)}</li>
-          <li>HK: $${formatNumber(h)}</li>
-          <li>Maint: $${formatNumber(m)}</li>
-        </ul>`;
-      document.getElementById("wex-result").innerHTML = result;
-    }
+      const mb = parseFloat(document.getElementById("miscBeachside").value) || 0;
+      const mh = parseFloat(document.getElementById("miscHK").value) || 0;
+      const mm = parseFloat(document.getElementById("miscMaint").value) || 0;
 
-    function goHome() {
-      window.location.href = "https://valarib.github.io/ACTG-Coding/ACTG.HTML";
+      const totalB = b + 10 + mb;
+      const totalH = h + 14 + mh;
+      const totalM = m + 6 + mm;
+
+      const gasTotal = b + h + m;
+      const miscTotal = mb + mh + mm;
+      const grandTotal = totalB + totalH + totalM;
+
+      document.getElementById("gasTotal").innerText = format(gasTotal);
+      document.getElementById("miscTotal").innerText = format(miscTotal);
+      document.getElementById("totalBeachside").innerText = format(totalB);
+      document.getElementById("totalHK").innerText = format(totalH);
+      document.getElementById("totalMaint").innerText = format(totalM);
+      document.getElementById("grandTotal").innerText = format(grandTotal);
+
+      const dateRange = document.getElementById("daterange").value.trim();
+      const memo = dateRange ? `Account #0460-00-186136-8 : HSK, Beachside & Maintenance Gas & Monthly Card Charge - ${dateRange}` : "";
+
+      document.getElementById("invoiceMemo").innerHTML = `<strong>Invoice Memo:</strong><br>${memo}`;
+      document.getElementById("billDesc").innerText = memo;
     }
   </script>
 
 </body>
 </html>
-
