@@ -94,6 +94,9 @@
 </head>
 <body>
 
+  <!-- Return to Home Button -->
+  <button onclick="goHome()" style="margin-bottom: 20px;">Return to Home</button>
+
   <div class="section">
     <h2>Wex - Gas Allocation Summary</h2>
 
@@ -234,6 +237,10 @@
       document.getElementById("billDesc").innerText = memo;
 
       document.getElementById("codingSection").style.display = "block";
+    }
+
+    function goHome() {
+      window.location.href = "https://valarib.github.io/ACTG-Coding/ACTG.HTML";
     }
   </script>
 
