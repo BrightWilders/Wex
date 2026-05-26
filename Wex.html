@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Wex - Gas Allocation Summary</title>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -29,7 +30,8 @@
       margin-top: 20px;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
@@ -69,7 +71,8 @@
       width: auto;
     }
 
-    .info-small th, .info-small td {
+    .info-small th,
+    .info-small td {
       border: none;
       padding: 4px 8px;
       text-align: left;
@@ -92,156 +95,258 @@
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Return to Home Button -->
- <div class="section">
-  <button onclick="goHome()" style="margin-bottom: 20px;">Return to Home</button>
+<div class="section">
+
+  <button onclick="goHome()" style="margin-bottom: 20px;">
+    Return to Home
+  </button>
+
   <h2>Wex - Gas Allocation Summary</h2>
 
-    <label for="daterange">Date Range:</label>
-    <input type="text" id="daterange" placeholder="MM/DD/YYYY - MM/DD/YYYY">
+  <label for="daterange">Date Range:</label>
+  <input
+    type="text"
+    id="daterange"
+    placeholder="MM/DD/YYYY - MM/DD/YYYY"
+  >
+
+  <table>
+    <thead>
+      <tr>
+        <th>Charge Type</th>
+        <th>Beachside</th>
+        <th>HK</th>
+        <th>Maint</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>Gas</td>
+
+        <td>
+          <input type="number" id="gasBeachside" value="0" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="gasHK" value="0" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="gasMaint" value="0" step="0.01">
+        </td>
+
+        <td id="gasTotal">0.00</td>
+      </tr>
+
+      <tr>
+        <td>Monthly Charge</td>
+
+        <td>
+          <input type="number" id="monthlyBeachside" value="10" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="monthlyHK" value="28" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="monthlyMaint" value="10" step="0.01">
+        </td>
+
+        <td id="monthlyTotal">48.00</td>
+      </tr>
+
+      <tr>
+        <td>Misc</td>
+
+        <td>
+          <input type="number" id="miscBeachside" value="0" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="miscHK" value="0" step="0.01">
+        </td>
+
+        <td>
+          <input type="number" id="miscMaint" value="0" step="0.01">
+        </td>
+
+        <td id="miscTotal">0.00</td>
+      </tr>
+
+      <tr>
+        <td><strong>Total</strong></td>
+
+        <td id="totalBeachside">0.00</td>
+        <td id="totalHK">0.00</td>
+        <td id="totalMaint">0.00</td>
+        <td id="grandTotal">0.00</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <button onclick="calculateTotals()">
+    Calculate Totals
+  </button>
+
+  <div id="invoiceMemo" style="margin-top: 20px;"></div>
+
+  <div id="codingSection">
+
+    <div class="header-flex">
+
+      <h3 style="margin: 0;">Coding</h3>
+
+      <div class="info-small">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Spend Owner</th>
+              <th>Entity</th>
+              <th>Bill Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Brian Gladwell</td>
+              <td>MC</td>
+              <td id="billDesc"></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
 
     <table>
+
       <thead>
         <tr>
-          <th>Charge Type</th>
-          <th>Beachside</th>
-          <th>HK</th>
-          <th>Maint</th>
-          <th>Total</th>
+          <th>GL</th>
+          <th>Department</th>
+          <th>Class</th>
         </tr>
       </thead>
+
       <tbody>
+
         <tr>
-          <td>Gas</td>
-          <td><input type="number" id="gasBeachside" value="0"></td>
-          <td><input type="number" id="gasHK" value="0"></td>
-          <td><input type="number" id="gasMaint" value="0"></td>
-          <td id="gasTotal"></td>
+          <td>7261--Gas & Mileage</td>
+          <td>GT6 Property Services</td>
+          <td>BKW ALL</td>
         </tr>
+
         <tr>
-          <td>Monthly Charge</td>
-          <td>10.00</td>
-          <td>28.00</td>
-          <td>6.00</td>
-          <td>44.00</td>
+          <td>7261--Gas & Mileage</td>
+          <td>Housekeeping</td>
+          <td>Unassigned Listing - Keys</td>
         </tr>
+
         <tr>
-          <td>Misc</td>
-          <td><input type="number" id="miscBeachside" value="0"></td>
-          <td><input type="number" id="miscHK" value="0"></td>
-          <td><input type="number" id="miscMaint" value="0"></td>
-          <td id="miscTotal"></td>
+          <td>7261--Gas & Mileage</td>
+          <td>Maintenance - Facility Services</td>
+          <td>Unassigned Listing - Keys</td>
         </tr>
-        <tr>
-          <td><strong>Total</strong></td>
-          <td id="totalBeachside"></td>
-          <td id="totalHK"></td>
-          <td id="totalMaint"></td>
-          <td id="grandTotal"></td>
-        </tr>
+
       </tbody>
     </table>
 
-    <button onclick="calculateTotals()">Calculate Totals</button>
-
-    <div id="invoiceMemo" style="margin-top: 20px;"></div>
-
-    <div id="codingSection">
-      <div class="header-flex">
-        <h3 style="margin: 0;">Coding</h3>
-        <div class="info-small">
-          <table>
-            <thead>
-              <tr>
-                <th>Spend Owner</th>
-                <th>Entity</th>
-                <th>Bill Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Brian Gladwell</td>
-                <td>MC</td>
-                <td id="billDesc"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>GL</th>
-            <th>Department</th>
-            <th>Class</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>7261--Gas & Mileage</td>
-            <td>GT6 Property Services</td>
-            <td>BKW ALL</td>
-          </tr>
-          <tr>
-            <td>7261--Gas & Mileage</td>
-            <td>Housekeeping</td>
-            <td>Unassigned Listing - Keys</td>
-          </tr>
-          <tr>
-            <td>7261--Gas & Mileage</td>
-            <td>Maintenance - Facility Services</td>
-            <td>Unassigned Listing - Keys</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
+</div>
 
-  <script>
-    function format(num) {
-      return parseFloat(num).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
+<script>
+  function format(num) {
+    return parseFloat(num).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
 
-    function calculateTotals() {
-      const b = parseFloat(document.getElementById("gasBeachside").value) || 0;
-      const h = parseFloat(document.getElementById("gasHK").value) || 0;
-      const m = parseFloat(document.getElementById("gasMaint").value) || 0;
+  function getNumber(id) {
+    return parseFloat(document.getElementById(id).value) || 0;
+  }
 
-      const mb = parseFloat(document.getElementById("miscBeachside").value) || 0;
-      const mh = parseFloat(document.getElementById("miscHK").value) || 0;
-      const mm = parseFloat(document.getElementById("miscMaint").value) || 0;
+  function calculateTotals() {
+    const gasBeachside = getNumber("gasBeachside");
+    const gasHK = getNumber("gasHK");
+    const gasMaint = getNumber("gasMaint");
 
-      const totalB = b + 10 + mb;
-      const totalH = h + 20 + mh;
-      const totalM = m + 6 + mm;
+    const monthlyBeachside = getNumber("monthlyBeachside");
+    const monthlyHK = getNumber("monthlyHK");
+    const monthlyMaint = getNumber("monthlyMaint");
 
-      const gasTotal = b + h + m;
-      const miscTotal = mb + mh + mm;
-      const grandTotal = totalB + totalH + totalM;
+    const miscBeachside = getNumber("miscBeachside");
+    const miscHK = getNumber("miscHK");
+    const miscMaint = getNumber("miscMaint");
 
-      document.getElementById("gasTotal").innerText = format(gasTotal);
-      document.getElementById("miscTotal").innerText = format(miscTotal);
-      document.getElementById("totalBeachside").innerText = format(totalB);
-      document.getElementById("totalHK").innerText = format(totalH);
-      document.getElementById("totalMaint").innerText = format(totalM);
-      document.getElementById("grandTotal").innerText = format(grandTotal);
+    const gasTotal =
+      gasBeachside + gasHK + gasMaint;
 
-      const dateRange = document.getElementById("daterange").value.trim();
-      const memo = dateRange ? `Account #0460-00-186136-8 : HSK, Beachside & Maintenance Gas & Monthly Card Charge - ${dateRange}` : "";
+    const monthlyTotal =
+      monthlyBeachside + monthlyHK + monthlyMaint;
 
-      document.getElementById("invoiceMemo").innerHTML = `<strong>Invoice Memo:</strong><br>${memo}`;
-      document.getElementById("billDesc").innerText = memo;
+    const miscTotal =
+      miscBeachside + miscHK + miscMaint;
 
+    const totalBeachside =
+      gasBeachside + monthlyBeachside + miscBeachside;
+
+    const totalHK =
+      gasHK + monthlyHK + miscHK;
+
+    const totalMaint =
+      gasMaint + monthlyMaint + miscMaint;
+
+    const grandTotal =
+      totalBeachside + totalHK + totalMaint;
+
+    document.getElementById("gasTotal").innerText = format(gasTotal);
+    document.getElementById("monthlyTotal").innerText = format(monthlyTotal);
+    document.getElementById("miscTotal").innerText = format(miscTotal);
+
+    document.getElementById("totalBeachside").innerText = format(totalBeachside);
+    document.getElementById("totalHK").innerText = format(totalHK);
+    document.getElementById("totalMaint").innerText = format(totalMaint);
+    document.getElementById("grandTotal").innerText = format(grandTotal);
+
+    const dateRange = document.getElementById("daterange").value.trim();
+
+    const memo = dateRange
+      ? `Account #0460-00-186136-8 : HSK, Beachside & Maintenance Gas & Monthly Card Charge - ${dateRange}`
+      : "";
+
+    document.getElementById("invoiceMemo").innerHTML =
+      memo ? `<strong>Invoice Memo:</strong><br>${memo}` : "";
+
+    document.getElementById("billDesc").innerText = memo;
+
+    if (grandTotal > 0 || memo !== "") {
       document.getElementById("codingSection").style.display = "block";
     }
+  }
 
-    function goHome() {
-      window.location.href = "https://valarib.github.io/ACTG-Coding/ACTG.HTML";
-    }
-  </script>
+  function goHome() {
+    window.location.href =
+      "https://valarib.github.io/ACTG-Coding/ACTG.HTML";
+  }
+
+  window.onload = function () {
+    calculateTotals();
+
+    document.querySelectorAll("input").forEach(input => {
+      input.addEventListener("input", calculateTotals);
+    });
+  };
+</script>
 
 </body>
 </html>
